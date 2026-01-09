@@ -1,0 +1,166 @@
+<mah:MetroWindow x:Class="Converter.App.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:Converter.App"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d"
+                 Title="原码/反码/补码转换器"
+                 Height="520"
+                 Width="880"
+                 MinHeight="520"
+                 MinWidth="880"
+                 FontFamily="Microsoft YaHei UI"
+                 Background="#EEF2F6"
+                 WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <DropShadowEffect x:Key="CardShadow" BlurRadius="16" ShadowDepth="2" Opacity="0.18" />
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#F7F9FC" Offset="0" />
+                <GradientStop Color="#E9EEF5" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid Margin="28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="原码 / 反码 / 补码转换器"
+                           FontSize="28"
+                           FontWeight="SemiBold"
+                           Foreground="#1F2A44" />
+                <TextBlock Text="输入任意一种编码形式，自动输出三种编码结果"
+                           Margin="0,8,0,0"
+                           FontSize="14"
+                           Foreground="#5A6476" />
+            </StackPanel>
+
+            <Border Grid.Row="1"
+                    Background="White"
+                    CornerRadius="16"
+                    Padding="20"
+                    Margin="0,0,0,16"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="280" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="输入值"
+                               FontSize="14"
+                               Foreground="#2D3648"
+                               FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Text="输入类型"
+                               FontSize="14"
+                               Foreground="#2D3648"
+                               FontWeight="SemiBold" />
+
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,8,16,0"
+                            Background="#F7F8FB"
+                            BorderBrush="#D6DBE5"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <TextBox Height="48"
+                                 FontFamily="Consolas"
+                                 FontSize="18"
+                                 Padding="12,8"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}" />
+                    </Border>
+
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,8,0,0"
+                            Background="#F7F8FB"
+                            BorderBrush="#D6DBE5"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                        <ComboBox Height="48"
+                                  FontSize="16"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  ItemsSource="{Binding InputTypes}"
+                                  SelectedItem="{Binding SelectedInputType}"
+                                  DisplayMemberPath="Display" />
+                    </Border>
+
+                    <TextBlock Grid.Row="2"
+                               Grid.ColumnSpan="2"
+                               Margin="0,10,0,0"
+                               Foreground="#D64541"
+                               Text="{Binding ErrorMessage}"
+                               Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="2"
+                    Background="White"
+                    CornerRadius="16"
+                    Padding="20"
+                    VerticalAlignment="Top"
+                    Effect="{StaticResource CardShadow}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="十进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding DecimalValue}" Margin="0,8,0,8" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="原码二进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding OriginalBinary}" Margin="0,8,0,8" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="原码十六进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding OriginalHex}" Margin="0,8,0,8" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="反码二进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding OnesBinary}" Margin="0,8,0,8" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="反码十六进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding OnesHex}" Margin="0,8,0,8" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="补码二进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="5" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding TwosBinary}" Margin="0,8,0,8" />
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="补码十六进制" FontSize="15" Foreground="#465064" Margin="0,8,0,8" />
+                        <TextBlock Grid.Row="6" Grid.Column="1" FontFamily="Consolas" FontSize="16" Text="{Binding TwosHex}" Margin="0,8,0,8" />
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
